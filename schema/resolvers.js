@@ -30,6 +30,16 @@ const resolvers = {
             return movie; 
         }
     },
+
+    User: {
+        favoriteMovies: () => {
+            // this is just hardcoded - the point is to show you can write resovlers for any type you created!
+            return MovieList.filter(
+                // is this the greatest decade of movie history?
+                movie => movie.yearOfPublication >= 2000 && movie.yearOfPublication < 2010
+            );
+        },
+    }
 };
 
 module.exports = { resolvers };

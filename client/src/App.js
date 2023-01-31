@@ -3,8 +3,8 @@ import {
   ApolloClient,  // each instance of this lets the client know you're connecting to an GQL API
   InMemoryCache,
   ApolloProvider,
-  // useQuery - TODO[Zain] - use this below!!
 } from '@apollo/client';
+import DisplayData from "./DisplayData";
 
 function App() {
   const client = new ApolloClient({
@@ -15,7 +15,7 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <div className="App">
-        <h1>List of Users TBD</h1>
+        <DisplayData />
       </div>
     </ApolloProvider>
   );

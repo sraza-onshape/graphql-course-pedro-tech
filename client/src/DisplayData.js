@@ -14,9 +14,22 @@ const QUERY_ALL_USERS = gql`
         }
     } 
 `;
+ 
+const QUERY_ALL_MOVIES = gql`
+    query GetAllMovies {
+        movies {
+            id
+            name
+            yearOfPublication
+            isInTheaters
+        }
+    }
+`;
 
 function DisplayData() {
-    const { data, loading, error } = useQuery(QUERY_ALL_USERS);
+    // note: the syntax we use here allows us to avoid a namespace conflict for the token "data"!!
+    const { data: userData, loading, error } = useQuery(QUERY_ALL_USERS);
+    const { data: movieData} = useQuery(QUERY_ALL_MOVIES);
 
     // note: this will put something to help keep users attention while API call execute
     if (loading) {
@@ -27,21 +40,44 @@ function DisplayData() {
     if (error) {
         console.log(error);
     }
-    // note: the "key" property initialized belowi s purely to avoid React warnings -->
+
+    // note: the "key" property initialized below is purely to avoid React warnings -->
     return (
         <div> 
-            { data && data.users.map((user) => {
+            { userData && userData.users.map((user) => {
                 return (
                     <div key={user.id}>
                         <h1>Name: {user.name}</h1>
                         <h2>Username: {user.username}</h2>
                         <p>Age: {user.age}</p>
-                        <p>Nationality: {user.nationality}</p>
+                        <p>Nationality: {user.nationality}</p>    
+                    </div>
+                ); 
+            })} 
+            { movieData && movieData.movies.map((movie) => {
+                return (
+                    <div key={movie.id}>
+                        <h1>Name: {movie.name}</h1>
+                        <p>Year: {movie.yearOfPublication}</p>
                     </div>
                 );
-            })} 
+            })}
         </div>
     );
 }
 
 export default DisplayData;
+
+/**
+ * 
+ { movieData && movieData.movies.map((movie) => {
+                return (
+                    <div key={movie.id}>
+                        <h1>Name: </h1>
+                        <h2>Username: </h2>
+                        <p>Age: </p>
+                        <p>Nationality: </p>
+                    </div>
+                );
+            })} 
+ *  */

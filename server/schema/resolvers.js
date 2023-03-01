@@ -50,6 +50,18 @@ const resolvers = {
             user.id = lastId + 1
             UserList.push(user);  // this updates our in-memory collection of users
             return user;
+        },
+
+        updateUsername: (parent, args) => {
+            const { id, newUsername } = args.input;
+            let updatedUser = null;
+            UserList.forEach(user => {
+                if (user.id == id) {
+                    user.username = newUsername;
+                    updatedUser = user;
+                }
+            });
+            return updatedUser;
         }
     }
 };

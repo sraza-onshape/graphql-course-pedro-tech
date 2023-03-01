@@ -43,7 +43,7 @@ const resolvers = {
 
     // all the functions related to changing data
     Mutation: {
-        createUser: (parent, args) => {
+        createUser: (_, args) => {
             // NOTE[Zain]: if you have a db - place the "insert logic" in this func!
             const user = args.input;
             const lastId = UserList[UserList.length-1].id;
@@ -52,7 +52,7 @@ const resolvers = {
             return user;
         },
 
-        updateUsername: (parent, args) => {
+        updateUsername: (_, args) => {
             const { id, newUsername } = args.input;
             let updatedUser = null;
             UserList.forEach(user => {
@@ -62,6 +62,15 @@ const resolvers = {
                 }
             });
             return updatedUser;
+        },
+
+        deleteUser: (_, args) => {
+            let user = null;
+            const deletedUserInArray = lodash.remove(UserList, user => user.id === Number(args.id));
+            if (deletedUserInArray.length > 0) {
+                user = deletedUserInArray[0];
+            }
+            return user;
         }
     }
 };

@@ -36,6 +36,28 @@ const typeDefs = gql`
         CHILE
     }
 
+    input CreateUserInput {
+        # using an input is preferred to parameterizing mutation fields
+        # --> allows you to do more than just passing a type
+
+        # note: NO need to pass an ID
+        name: String!
+        username: String!
+        age: Int
+        nationality: Nationality = BRAZIL
+    }
+
+    input updateUsernameInput {
+        id: ID!
+        newUsername: String!
+    }
+
+    type Mutation {
+        createUser(input: CreateUserInput!): User! 
+        updateUsername(input: updateUsernameInput!): User
+        deleteUser(id: ID!): User!
+    }
+
 `;
 
 module.exports = { typeDefs };

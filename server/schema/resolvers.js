@@ -39,6 +39,39 @@ const resolvers = {
                 movie => movie.yearOfPublication >= 2000 && movie.yearOfPublication < 2010
             );
         },
+    },
+
+    // all the functions related to changing data
+    Mutation: {
+        createUser: (_, args) => {
+            // NOTE[Zain]: if you have a db - place the "insert logic" in this func!
+            const user = args.input;
+            const lastId = UserList[UserList.length-1].id;
+            user.id = lastId + 1
+            UserList.push(user);  // this updates our in-memory collection of users
+            return user;
+        },
+
+        updateUsername: (_, args) => {
+            const { id, newUsername } = args.input;
+            let updatedUser = null;
+            UserList.forEach(user => {
+                if (user.id == id) {
+                    user.username = newUsername;
+                    updatedUser = user;
+                }
+            });
+            return updatedUser;
+        },
+
+        deleteUser: (_, args) => {
+            let user = null;
+            const deletedUserInArray = lodash.remove(UserList, user => user.id === Number(args.id));
+            if (deletedUserInArray.length > 0) {
+                user = deletedUserInArray[0];
+            }
+            return user;
+        }
     }
 };
 
